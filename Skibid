@@ -1,0 +1,3269 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Dandy's World " .. Fluent.Version,
+    SubTitle = "by hex233222",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(500, 400),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+
+-- Fluent provides Lucide Icons, they are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "align-left" }),
+    Main2 = Window:AddTab({ Title = "Main 2", Icon = "folder-plus" }),
+    Main3 = Window:AddTab({ Title = "Fun", Icon = "laugh" }),
+    Main4 = Window:AddTab({ Title = "Client-Sideds Skins", Icon = "eye-off" }),
+    Main5 = Window:AddTab({ Title = "Animations Pack", Icon = "eye" }),
+    Main6 = Window:AddTab({ Title = "FE character cards", Icon = "scan-face" }),
+    Main8 = Window:AddTab({ Title = "Funny Client-Sideds", Icon = "smile" }),
+    Main7 = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Section = Tabs.Main:AddSection("Esp Section")
+
+Tabs.Main:AddButton({
+    Title = "Esp Twisteds",
+    Description = "Adds Hightlight to Twisteds",
+    Callback = function()
+        local function highlightMonsters()
+    local currentRoom = workspace:FindFirstChild("CurrentRoom")
+    if currentRoom then
+        for _, item in pairs(currentRoom:GetChildren()) do
+            if item:IsA("Model") then
+                local monstersFolder = item:FindFirstChild("Monsters")
+                if monstersFolder then
+                    for _, monster in pairs(monstersFolder:GetChildren()) do
+                        if monster:IsA("Model") then
+                            -- Verifica si ya tiene un Highlight para evitar duplicados
+                            if not monster:FindFirstChildOfClass("Highlight") then
+                                local highlight = Instance.new("Highlight")
+                                highlight.Parent = monster
+                                highlight.FillColor = Color3.new(1, 0, 0) -- Rojo
+                                highlight.OutlineColor = Color3.new(1, 1, 1) -- Blanco
+                                highlight.FillTransparency = 0.5
+                            end
+
+                            -- Verifica si ya tiene un BillboardGui para evitar duplicados
+                            if not monster:FindFirstChild("NameTag") then
+                                local billboardGui = Instance.new("BillboardGui")
+                                billboardGui.Name = "NameTag"
+                                billboardGui.Parent = monster
+                                billboardGui.Size = UDim2.new(8, 0, 2, 0) -- Tamaño más grande
+                                billboardGui.AlwaysOnTop = true
+                                billboardGui.MaxDistance = 2000 -- Visible desde más lejos
+
+                                -- Crea el TextLabel dentro del BillboardGui
+                                local textLabel = Instance.new("TextLabel")
+                                textLabel.Parent = billboardGui
+                                textLabel.Size = UDim2.new(1, 0, 1, 0)
+                                textLabel.BackgroundTransparency = 1 -- Fondo transparente
+                                textLabel.Text = monster.Name
+                                textLabel.TextColor3 = Color3.new(1, 0, 0) -- Rojo
+                                textLabel.TextScaled = true -- Escalado automático
+                                textLabel.Font = Enum.Font.GothamBold -- Fuente más llamativa
+
+                                -- Agrega UIStroke al TextLabel
+                                local uiStroke = Instance.new("UIStroke")
+                                uiStroke.Parent = textLabel
+                                uiStroke.Thickness = 4 -- Borde más grueso
+                                uiStroke.Color = Color3.new(0, 0, 0) -- Negro
+
+                                -- Agrega UIGradient al TextLabel
+                                local uiGradient = Instance.new("UIGradient")
+                                uiGradient.Parent = textLabel
+                                uiGradient.Color = ColorSequence.new({
+                                    ColorSequenceKeypoint.new(0, Color3.new(1, 0.5, 0.5)), -- Rosado
+                                    ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0)) -- Rojo
+                                })
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Ejecuta la función cada segundo
+while true do
+    highlightMonsters()
+    wait(1)
+end
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Esp Machines",
+    Description = "Adds Highlight to Machines",
+    Callback = function()
+        local function highlightGenerators()
+    local currentRoom = workspace:FindFirstChild("CurrentRoom")
+    if currentRoom then
+        for _, item in pairs(currentRoom:GetChildren()) do
+            if item:IsA("Model") then
+                local generatorsFolder = item:FindFirstChild("Generators")
+                if generatorsFolder then
+                    for _, generator in pairs(generatorsFolder:GetChildren()) do
+                        if generator:IsA("Model") then
+                            -- Verifica si ya tiene un Highlight para evitar duplicados
+                            if not generator:FindFirstChildOfClass("Highlight") then
+                                local highlight = Instance.new("Highlight")
+                                highlight.Parent = generator
+                                highlight.FillColor = Color3.new(0, 1, 0) -- Verde
+                                highlight.OutlineColor = Color3.fromRGB(255, 255, 255) -- Blanco
+                                highlight.FillTransparency = 0.5
+                            end
+
+                            -- Verifica si ya tiene un BillboardGui para evitar duplicados
+                            if not generator:FindFirstChild("NameTag") then
+                                local billboardGui = Instance.new("BillboardGui")
+                                billboardGui.Name = "NameTag"
+                                billboardGui.Parent = generator
+                                billboardGui.Size = UDim2.new(8, 0, 2, 0) -- Tamaño grande
+                                billboardGui.AlwaysOnTop = true
+                                billboardGui.MaxDistance = 2000 -- Visible desde lejos
+
+                                -- Crea el TextLabel dentro del BillboardGui
+                                local textLabel = Instance.new("TextLabel")
+                                textLabel.Parent = billboardGui
+                                textLabel.Size = UDim2.new(1, 0, 1, 0)
+                                textLabel.BackgroundTransparency = 1 -- Fondo transparente
+                                textLabel.Text = generator.Name
+                                textLabel.TextColor3 = Color3.new(0, 1, 0) -- Mismo color que el Highlight
+                                textLabel.TextScaled = true -- Escalado automático
+                                textLabel.Font = Enum.Font.GothamBold -- Fuente más llamativa
+
+                                -- Agrega UIStroke al TextLabel
+                                local uiStroke = Instance.new("UIStroke")
+                                uiStroke.Parent = textLabel
+                                uiStroke.Thickness = 4 -- Borde grueso
+                                uiStroke.Color = Color3.fromRGB(0, 0, 0) -- Negro
+
+                                -- Agrega UIGradient al TextLabel
+                                local uiGradient = Instance.new("UIGradient")
+                                uiGradient.Parent = textLabel
+                                uiGradient.Color = ColorSequence.new({
+                                    ColorSequenceKeypoint.new(0, Color3.new(0.7, 1, 0.7)), -- Verde claro
+                                    ColorSequenceKeypoint.new(1, Color3.new(0, 1, 0)) -- Verde
+                                })
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Ejecuta la función cada segundo
+while true do
+    highlightGenerators()
+    wait(1)
+end
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Esp Items",
+    Description = "Adds Hightlight to Items",
+    Callback = function()
+        local highlightOutlineColor = Color3.new(1, 1, 1)  -- Blanco
+local highlightFillColor = Color3.new(0, 0, 1)     -- Azul
+
+-- Función para agregar Highlight a un modelo
+local function addHighlightToModel(model)
+    -- Verifica si ya tiene un Highlight para evitar duplicados
+    if not model:FindFirstChildOfClass("Highlight") then
+        local highlight = Instance.new("Highlight")
+        highlight.OutlineColor = highlightOutlineColor
+        highlight.FillColor = highlightFillColor
+        highlight.FillTransparency = 0.5 -- Transparencia del relleno (0 es completamente sólido)
+        highlight.Parent = model
+    end
+
+    -- Verifica si ya tiene un BillboardGui para evitar duplicados
+    if not model:FindFirstChild("NameTag") then
+        local billboardGui = Instance.new("BillboardGui")
+        billboardGui.Name = "NameTag"
+        billboardGui.Parent = model
+        billboardGui.Size = UDim2.new(8, 0, 2, 0) -- Tamaño grande
+        billboardGui.AlwaysOnTop = true
+        billboardGui.MaxDistance = 2000 -- Visible desde lejos
+
+        -- Crea el TextLabel dentro del BillboardGui
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Parent = billboardGui
+        textLabel.Size = UDim2.new(1, 0, 1, 0)
+        textLabel.BackgroundTransparency = 1 -- Fondo transparente
+        textLabel.Text = model.Name
+        textLabel.TextColor3 = highlightFillColor -- Mismo color que el Highlight
+        textLabel.TextScaled = true -- Escalado automático
+        textLabel.Font = Enum.Font.GothamBold -- Fuente más llamativa
+
+        -- Agrega UIStroke al TextLabel
+        local uiStroke = Instance.new("UIStroke")
+        uiStroke.Parent = textLabel
+        uiStroke.Thickness = 4 -- Borde grueso
+        uiStroke.Color = Color3.fromRGB(0, 0, 0) -- Negro
+
+        -- Agrega UIGradient al TextLabel
+        local uiGradient = Instance.new("UIGradient")
+        uiGradient.Parent = textLabel
+        uiGradient.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, highlightFillColor:Lerp(Color3.new(1, 1, 1), 0.5)), -- Azul claro
+            ColorSequenceKeypoint.new(1, highlightFillColor) -- Azul
+        })
+    end
+end
+
+-- Ejecuta el proceso cada segundo
+while true do
+    -- Busca la carpeta CurrentRoom en Workspace
+    local currentRoom = game.Workspace:FindFirstChild("CurrentRoom")
+    if currentRoom and currentRoom:IsA("Folder") then
+        -- Recorre todos los objetos dentro de CurrentRoom
+        for _, item in pairs(currentRoom:GetChildren()) do
+            -- Verifica si el objeto es un modelo
+            if item:IsA("Model") then
+                -- Busca la carpeta Items dentro del modelo
+                local itemsFolder = item:FindFirstChild("Items")
+                if itemsFolder and itemsFolder:IsA("Folder") then
+                    -- Recorre todos los modelos dentro de Items y les agrega un Highlight
+                    for _, subItem in pairs(itemsFolder:GetChildren()) do
+                        if subItem:IsA("Model") then
+                            addHighlightToModel(subItem)
+                        end
+                    end
+                end
+            end
+        end
+    end
+    -- Espera 1 segundo antes de repetir
+    wait(1)
+end
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Esp Players",
+    Description = "Adds Hightlight to Players",
+    Callback = function()
+        local Players = game:GetService("Players")
+
+-- Función para agregar o actualizar el Highlight y BillboardGui en un personaje
+local function addHighlightAndNameTag(character)
+    -- Verifica si ya existe un Highlight en el personaje
+    local highlight = character:FindFirstChildOfClass("Highlight")
+    
+    -- Si no existe, crea uno nuevo
+    if not highlight then
+        highlight = Instance.new("Highlight")
+        highlight.Parent = character
+    end
+
+    -- Configura los colores del Highlight
+    highlight.FillColor = Color3.fromRGB(0, 0, 255) -- Azul
+    highlight.OutlineColor = Color3.fromRGB(255, 255, 255) -- Blanco
+
+    -- Verifica si ya existe un BillboardGui para evitar duplicados
+    if not character:FindFirstChild("NameTag") then
+        local billboardGui = Instance.new("BillboardGui")
+        billboardGui.Name = "NameTag"
+        billboardGui.Parent = character
+        billboardGui.Size = UDim2.new(8, 0, 2, 0) -- Tamaño grande
+        billboardGui.AlwaysOnTop = true
+        billboardGui.MaxDistance = 2000 -- Visible desde lejos
+
+        -- Crea el TextLabel dentro del BillboardGui
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Parent = billboardGui
+        textLabel.Size = UDim2.new(1, 0, 1, 0)
+        textLabel.BackgroundTransparency = 1 -- Fondo transparente
+        textLabel.Text = character.Name
+        textLabel.TextColor3 = Color3.fromRGB(0, 0, 255) -- Mismo color que el Highlight
+        textLabel.TextScaled = true -- Escalado automático
+        textLabel.Font = Enum.Font.GothamBold -- Fuente llamativa
+
+        -- Agrega UIStroke al TextLabel
+        local uiStroke = Instance.new("UIStroke")
+        uiStroke.Parent = textLabel
+        uiStroke.Thickness = 4 -- Borde grueso
+        uiStroke.Color = Color3.fromRGB(255, 255, 255) -- Blanco
+
+        -- Agrega UIGradient al TextLabel
+        local uiGradient = Instance.new("UIGradient")
+        uiGradient.Parent = textLabel
+        uiGradient.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 100, 255)), -- Azul claro
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 255)) -- Azul
+        })
+    end
+end
+
+-- Función para aplicar el Highlight y NameTag a todos los jugadores cada segundo
+local function applyHighlightsAndNameTags()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player.Character then
+            addHighlightAndNameTag(player.Character)
+        end
+    end
+end
+
+-- Ejecuta applyHighlightsAndNameTags cada segundo
+while true do
+    applyHighlightsAndNameTags()
+    wait(1)
+end
+    end
+})
+
+
+local Section = Tabs.Main:AddSection("Visuals")
+
+
+Tabs.Main:AddButton({
+    Title = "Visual Dandy",
+    Description = "This was made by Craze(Use Boxten)",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/LrGDCr7Z"))();
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Remove Skill Check",
+    Description = "Destroys Skill Check",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+local skillCheckFrame = player.PlayerGui.ScreenGui.Menu:FindFirstChild("SkillCheckFrame")
+
+if skillCheckFrame then
+    skillCheckFrame:Destroy()
+end
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Weird Twisteds",
+    Description = "Makes Twisteds Heads Weird",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/JhdK4Z3k"))();
+    end
+})
+
+
+
+local Section = Tabs.Main:AddSection("Gui")
+
+Tabs.Main:AddButton({
+    Title = "Walkspeed GUI",
+    Description = "A gui to change walkspeed",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crear GUI principal
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "Hex233222 Speed Changer"
+screenGui.Parent = playerGui
+
+-- Crear el Frame principal (la ventana arrastrable)
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 250, 0, 150)
+mainFrame.Position = UDim2.new(0.5, -125, 0.5, -75) -- Centrado en la pantalla
+mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Blanco
+mainFrame.BorderSizePixel = 2
+mainFrame.Visible = true -- Inicialmente visible
+mainFrame.Parent = screenGui
+
+-- Crear un título para el GUI
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Hex233222 Speed Changer"
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextSize = 18
+titleLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Texto negro
+titleLabel.Parent = mainFrame
+
+-- Crear el Slider para ajustar la distancia de teleportación
+local slider = Instance.new("TextButton")
+slider.Size = UDim2.new(1, 0, 0.2, 0)
+slider.Position = UDim2.new(0, 0, 0.3, 0)
+slider.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+slider.Text = "Adjust Teleport Distance"
+slider.Font = Enum.Font.SourceSans
+slider.TextSize = 18
+slider.Parent = mainFrame
+
+local currentDistanceLabel = Instance.new("TextLabel")
+currentDistanceLabel.Size = UDim2.new(1, 0, 0.2, 0)
+currentDistanceLabel.Position = UDim2.new(0, 0, 0.5, 0)
+currentDistanceLabel.BackgroundTransparency = 1
+currentDistanceLabel.Text = "Teleport Distance: 1"
+currentDistanceLabel.Font = Enum.Font.SourceSans
+currentDistanceLabel.TextSize = 18
+currentDistanceLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Texto negro
+currentDistanceLabel.Parent = mainFrame
+
+-- Crear un botón para cerrar el GUI
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -25, 0, 5) -- Arriba a la derecha del Frame
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Text = "X"
+closeButton.TextScaled = true
+closeButton.Parent = mainFrame
+
+-- Funcionalidad para cerrar el GUI
+closeButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false -- Oculta el GUI al presionar el botón cerrar
+end)
+
+-- Variables para teleportar al jugador
+local minDistance = 0.5
+local maxDistance = 5
+local teleportDistance = minDistance
+local teleportSpeed = 0.01 -- Hacemos el tiempo entre teletransportes más rápido
+
+-- Función para teletransportar al jugador cuando se mueve
+local function teleportPlayer()
+    local moveDirection = humanoid.MoveDirection
+    if moveDirection.Magnitude > 0 then
+        -- Calcular la nueva posición de teletransporte
+        local newPosition = humanoidRootPart.Position + moveDirection.Unit * teleportDistance
+        
+        -- Girar al jugador en la dirección de movimiento
+        local newCFrame = CFrame.new(newPosition, newPosition + moveDirection)
+        humanoidRootPart.CFrame = newCFrame
+    end
+end
+
+-- Ajustar la distancia de teletransporte con el slider
+slider.MouseButton1Click:Connect(function()
+    teleportDistance = teleportDistance + 0.5
+    if teleportDistance > maxDistance then
+        teleportDistance = minDistance
+    end
+    currentDistanceLabel.Text = "Teleport Distance: " .. teleportDistance
+end)
+
+-- Función que ejecuta la teletransportación constantemente
+local function startTPWalk()
+    while true do
+        teleportPlayer()
+        wait(teleportSpeed) -- Aumenta la velocidad de la teletransportación
+    end
+end
+
+-- Iniciar el TPWalk en un bucle
+spawn(startTPWalk)
+
+-- Funcionalidad de arrastrar el GUI
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    mainFrame.Position = UDim2.new(
+        startPos.X.Scale,
+        startPos.X.Offset + delta.X,
+        startPos.Y.Scale,
+        startPos.Y.Offset + delta.Y
+    )
+end
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Inf Stamina GUI",
+    Description = "Select your toon speed",
+    Callback = function()
+        local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Crear un marco deslizable (ScrollingFrame) con tamaño restaurado
+local mainFrame = Instance.new("ScrollingFrame")
+mainFrame.Size = UDim2.new(0.25, 0, 0.35, 0)  -- Tamaño ajustado al 25% del ancho y 35% del alto de la pantalla
+mainFrame.Position = UDim2.new(0.375, 0, 0.375, 0)  -- Centra el marco en la pantalla
+mainFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+mainFrame.Draggable = true
+mainFrame.Active = true
+mainFrame.ScrollBarThickness = 8
+mainFrame.Parent = screenGui
+
+-- Crear el marco superior con el texto "Select Character Speed"
+local topFrame = Instance.new("Frame")
+topFrame.Size = UDim2.new(1, 0, 0.3, 0)
+topFrame.Position = UDim2.new(0, 0, 0, 0)
+topFrame.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+topFrame.Parent = mainFrame
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -20, 1, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.Text = "Select Character Speed"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextScaled = true
+titleLabel.Parent = topFrame
+
+-- Función para crear un botón de "correr" con alternancia de velocidad
+local function createRunButton(speed)
+    local runButton = Instance.new("TextButton")
+    runButton.Size = UDim2.new(0.15, 0, 0.08, 0)
+    runButton.Position = UDim2.new(0.85, 0, 0.85, 0)
+    runButton.Text = "Run (" .. speed .. ")"
+    runButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    runButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    runButton.TextScaled = true
+    runButton.Parent = screenGui
+    runButton.Draggable = true -- Hacer que el botón sea arrastrable
+
+    local isRunning = false -- Variable para alternar entre correr y caminar
+    local defaultSpeed = 16 -- Velocidad base del jugador
+
+    -- Bucle para actualizar la velocidad cada 0.001 segundos mientras está en modo "correr"
+    spawn(function()
+        while true do
+            if isRunning then
+                local player = game.Players.LocalPlayer
+                if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+                    player.Character.Humanoid.WalkSpeed = speed
+                end
+            end
+            wait(0.001) -- Esperar 0.001 segundos entre cada actualización
+        end
+    end)
+
+    runButton.MouseButton1Click:Connect(function()
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+            if isRunning then
+                -- Si está corriendo, volver a la velocidad normal
+                player.Character.Humanoid.WalkSpeed = defaultSpeed
+                isRunning = false
+                runButton.Text = "Run (" .. speed .. ")" -- Texto cuando está detenido
+            else
+                -- Si está detenido, correr a la velocidad seleccionada
+                isRunning = true
+                runButton.Text = "Stop" -- Texto cuando está corriendo
+            end
+        end
+    end)
+
+    -- Agregar un botón para cerrar el botón de "Run"
+    local closeButton = Instance.new("TextButton")
+    closeButton.Size = UDim2.new(0.1, 0, 0.1, 0) -- Tamaño aumentado
+    closeButton.Position = UDim2.new(0.9, 0, 0, 0) -- Ajustar posición para que esté en la esquina superior derecha
+    closeButton.Text = "X"
+    closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.TextScaled = true
+    closeButton.Parent = runButton
+
+    closeButton.MouseButton1Click:Connect(function()
+        runButton:Destroy() -- Eliminar el botón de "Run"
+    end)
+end
+
+-- Crear botón de velocidad y manejar el clic para cada velocidad
+local function createSpeedButton(stars, speed, position)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0.6, 0, 0.2, 0)
+    button.Position = position
+    button.Text = stars
+    button.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+    button.TextScaled = true
+    button.Parent = mainFrame
+
+    button.MouseButton1Click:Connect(function()
+        screenGui:ClearAllChildren() -- Destruir la interfaz actual
+        createRunButton(speed) -- Crear el botón de "correr" con la velocidad seleccionada
+    end)
+end
+
+-- Crear botones de velocidad con diferentes opciones
+createSpeedButton("⭐", 20, UDim2.new(0.2, 0, 0.2, 0))
+createSpeedButton("⭐⭐", 22.5, UDim2.new(0.2, 0, 0.4, 0))
+createSpeedButton("⭐⭐⭐", 25, UDim2.new(0.2, 0, 0.6, 0))
+createSpeedButton("⭐⭐⭐⭐", 27.5, UDim2.new(0.2, 0, 0.8, 0))
+createSpeedButton("⭐⭐⭐⭐⭐", 30, UDim2.new(0.2, 0, 1, 0)) -- Botón de 5 estrellas
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Crear un marco deslizable (ScrollingFrame) con tamaño restaurado
+local mainFrame = Instance.new("ScrollingFrame")
+mainFrame.Size = UDim2.new(0.25, 0, 0.35, 0)  -- Tamaño ajustado al 25% del ancho y 35% del alto de la pantalla
+mainFrame.Position = UDim2.new(0.375, 0, 0.375, 0)  -- Centra el marco en la pantalla
+mainFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+mainFrame.Draggable = true
+mainFrame.Active = true
+mainFrame.ScrollBarThickness = 8
+mainFrame.Parent = screenGui
+
+-- Crear el marco superior con el texto "Select Character Speed"
+local topFrame = Instance.new("Frame")
+topFrame.Size = UDim2.new(1, 0, 0.3, 0)
+topFrame.Position = UDim2.new(0, 0, 0, 0)
+topFrame.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+topFrame.Parent = mainFrame
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -20, 1, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.Text = "Select Character Speed"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextScaled = true
+titleLabel.Parent = topFrame
+
+-- Función para crear un botón de "correr" con alternancia de velocidad
+local function createRunButton(speed)
+    local runButton = Instance.new("TextButton")
+    runButton.Size = UDim2.new(0.15, 0, 0.08, 0)
+    runButton.Position = UDim2.new(0.85, 0, 0.85, 0)
+    runButton.Text = "Run (" .. speed .. ")"
+    runButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    runButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    runButton.TextScaled = true
+    runButton.Parent = screenGui
+    runButton.Draggable = true -- Hacer que el botón sea arrastrable
+
+    local isRunning = false -- Variable para alternar entre correr y caminar
+    local defaultSpeed = 16 -- Velocidad base del jugador
+
+    -- Bucle para actualizar la velocidad cada 0.001 segundos mientras está en modo "correr"
+    spawn(function()
+        while true do
+            if isRunning then
+                local player = game.Players.LocalPlayer
+                if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+                    player.Character.Humanoid.WalkSpeed = speed
+                end
+            end
+            wait(0.001) -- Esperar 0.001 segundos entre cada actualización
+        end
+    end)
+
+    runButton.MouseButton1Click:Connect(function()
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+            if isRunning then
+                -- Si está corriendo, volver a la velocidad normal
+                player.Character.Humanoid.WalkSpeed = defaultSpeed
+                isRunning = false
+                runButton.Text = "Run (" .. speed .. ")" -- Texto cuando está detenido
+            else
+                -- Si está detenido, correr a la velocidad seleccionada
+                isRunning = true
+                runButton.Text = "Stop" -- Texto cuando está corriendo
+            end
+        end
+    end)
+
+    -- Agregar un botón para cerrar el botón de "Run"
+    local closeButton = Instance.new("TextButton")
+    closeButton.Size = UDim2.new(0.1, 0, 0.1, 0) -- Tamaño aumentado
+    closeButton.Position = UDim2.new(0.9, 0, 0, 0) -- Ajustar posición para que esté en la esquina superior derecha
+    closeButton.Text = "X"
+    closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.TextScaled = true
+    closeButton.Parent = runButton
+
+    closeButton.MouseButton1Click:Connect(function()
+        runButton:Destroy() -- Eliminar el botón de "Run"
+    end)
+end
+
+-- Crear botón de velocidad y manejar el clic para cada velocidad
+local function createSpeedButton(stars, speed, position)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0.6, 0, 0.2, 0)
+    button.Position = position
+    button.Text = stars
+    button.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+    button.TextScaled = true
+    button.Parent = mainFrame
+
+    button.MouseButton1Click:Connect(function()
+        screenGui:ClearAllChildren() -- Destruir la interfaz actual
+        createRunButton(speed) -- Crear el botón de "correr" con la velocidad seleccionada
+    end)
+end
+
+-- Crear botones de velocidad con diferentes opciones
+createSpeedButton("⭐", 20, UDim2.new(0.2, 0, 0.2, 0))
+createSpeedButton("⭐⭐", 22.5, UDim2.new(0.2, 0, 0.4, 0))
+createSpeedButton("⭐⭐⭐", 25, UDim2.new(0.2, 0, 0.6, 0))
+createSpeedButton("⭐⭐⭐⭐", 27.5, UDim2.new(0.2, 0, 0.8, 0))
+createSpeedButton("⭐⭐⭐⭐⭐", 30, UDim2.new(0.2, 0, 1, 0))
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Auto Farm GUI",
+    Description = "Mix with auto skill check + Auto Gte and use after floor 1",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Main GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "Hex233222 Control"
+screenGui.Parent = playerGui
+
+-- Main Frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 250, 0, 180)
+mainFrame.Position = UDim2.new(0.5, -125, 0.5, -90)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BackgroundTransparency = 0.2
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = mainFrame
+
+-- Title Label
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -40, 0.2, 0)
+titleLabel.Position = UDim2.new(0, 10, 0, 5)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Auto Farm"
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 20
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Parent = mainFrame
+
+-- Toggle Button
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(1, -20, 0.25, 0)
+toggleButton.Position = UDim2.new(0, 10, 0.25, 0)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0) -- Dark green
+toggleButton.Text = "Activate"
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.TextSize = 18
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Parent = mainFrame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 10)
+buttonCorner.Parent = toggleButton
+
+-- Close Button
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0.2, 0, 0.2, 0)
+closeButton.Position = UDim2.new(0.8, 0, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Dark red
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 18
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Parent = mainFrame
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 8)
+closeCorner.Parent = closeButton
+
+-- Notification Label
+local notificationLabel = Instance.new("TextLabel")
+notificationLabel.Size = UDim2.new(1, -20, 0.4, 0)
+notificationLabel.Position = UDim2.new(0, 10, 0.6, 0)
+notificationLabel.BackgroundTransparency = 1
+notificationLabel.Text = ""
+notificationLabel.TextWrapped = true
+notificationLabel.Font = Enum.Font.Gotham
+notificationLabel.TextSize = 14
+notificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+notificationLabel.Parent = mainFrame
+
+-- Script control variables
+local scriptEnabled = false
+local mainLoopCoroutine
+local researchCapsulesCollected = 0
+local isTeleportedToDoor = false -- Variable para controlar el bloqueo temporal
+local isCollectingCapsules = false -- Variable para evitar otras acciones mientras recolectas cápsulas
+
+-- Teleport to Door Hitbox
+local function teleportToDoorHitbox()
+    if not isTeleportedToDoor then
+        isTeleportedToDoor = true
+        local elevatorsFolder = game.Workspace:FindFirstChild("Elevators")
+        if elevatorsFolder then
+            local elevatorModel = elevatorsFolder:FindFirstChild("Elevator")
+            if elevatorModel then
+                local doorHitbox = elevatorModel:FindFirstChild("DoorHitbox")
+                if doorHitbox then
+                    local character = player.Character or player.CharacterAdded:Wait()
+                    character:SetPrimaryPartCFrame(doorHitbox.CFrame + Vector3.new(0, 50, 0))
+                    wait(5) -- Espera de 5 segundos antes de realizar cualquier otra acción
+                end
+            end
+        end
+        isTeleportedToDoor = false -- Permitir otras acciones después de los 5 segundos
+    end
+end
+
+-- Find the best generator
+local function findBestGenerator(currentRoomFolder)
+    if not currentRoomFolder then return nil end
+    local bestGenerator = nil
+    local lowestAmount = math.huge
+
+    for _, room in pairs(currentRoomFolder:GetChildren()) do
+        if room:IsA("Model") then
+            local generatorsFolder = room:FindFirstChild("Generators")
+            if generatorsFolder then
+                for _, generator in pairs(generatorsFolder:GetChildren()) do
+                    if generator:IsA("Model") then
+                        local statsFolder = generator:FindFirstChild("Stats")
+                        if statsFolder then
+                            local currentAmount = statsFolder:FindFirstChild("CurrentAmount")
+                            if currentAmount and currentAmount:IsA("NumberValue") and currentAmount.Value < lowestAmount then
+                                bestGenerator = generator
+                                lowestAmount = currentAmount.Value
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return bestGenerator
+end
+
+-- Teleport to generator
+local function teleportToGenerator(generator)
+    local character = player.Character or player.CharacterAdded:Wait()
+    if generator then
+        local lightPart = generator:FindFirstChild("Light")
+        if lightPart and lightPart:IsA("BasePart") then
+            character:SetPrimaryPartCFrame(lightPart.CFrame)
+            wait(0.01)
+        end
+
+        local promptPart = generator:FindFirstChild("Prompt")
+        if promptPart and promptPart:IsA("BasePart") then
+            local proximityPrompt = promptPart:FindFirstChild("ProximityPrompt")
+            if proximityPrompt and proximityPrompt:IsA("ProximityPrompt") then
+                for i = 1, 3 do
+                    fireproximityprompt(proximityPrompt)
+                    wait(0.01)
+                end
+            end
+        end
+    end
+end
+
+-- Collect research capsules
+local function collectResearchCapsules(currentRoomFolder)
+    if isCollectingCapsules then return end
+    isCollectingCapsules = true
+
+    if currentRoomFolder then
+        for _, room in pairs(currentRoomFolder:GetChildren()) do
+            local itemsFolder = room:FindFirstChild("Items")
+            if itemsFolder then
+                for _, item in pairs(itemsFolder:GetChildren()) do
+                    if item:IsA("Model") and item.Name == "ResearchCapsule" then
+                        local promptPart = item:FindFirstChild("Prompt")
+                        if promptPart then
+                            local proximityPrompt = promptPart:FindFirstChild("ProximityPrompt")
+                            if proximityPrompt then
+                                local character = player.Character or player.CharacterAdded:Wait()
+                                character:SetPrimaryPartCFrame(item.PrimaryPart.CFrame)
+                                for i = 1, 3 do
+                                    fireproximityprompt(proximityPrompt)
+                                    wait(0.1)
+                                end
+                                researchCapsulesCollected = researchCapsulesCollected + 1
+                                notificationLabel.Text = "Research Capsules Collected: " .. researchCapsulesCollected
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    isCollectingCapsules = false
+end
+
+-- Monitor monsters and handle chasing
+local function monitorAllMonsters(currentRoomFolder)
+    for _, room in pairs(currentRoomFolder:GetChildren()) do
+        local monstersFolder = room:FindFirstChild("Monsters")
+        if monstersFolder then
+            local monsterNames = {}
+            for _, monster in pairs(monstersFolder:GetChildren()) do
+                table.insert(monsterNames, monster.Name)
+                local chaserScript = monster:FindFirstChild("Chaser")
+                if chaserScript then
+                    local chasingValue = chaserScript:FindFirstChild("Chasing")
+                    if chasingValue and chasingValue:IsA("BoolValue") then
+                        chasingValue.Changed:Connect(function(newValue)
+                            if newValue == true then
+                                teleportToDoorHitbox()
+                            end
+                        end)
+                    end
+                end
+            end
+            notificationLabel.Text = "Monsters detected: " .. table.concat(monsterNames, ", ")
+        else
+            notificationLabel.Text = ""
+        end
+    end
+end
+
+-- Toggle function
+local function toggleScript()
+    if scriptEnabled then
+        scriptEnabled = false
+        toggleButton.Text = "Activate"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    else
+        scriptEnabled = true
+        toggleButton.Text = "Deactivate"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+
+        -- Main loop coroutine
+        mainLoopCoroutine = coroutine.create(function()
+            local currentRoomFolder = game.Workspace:FindFirstChild("CurrentRoom")
+            while scriptEnabled do
+                if not isTeleportedToDoor and not isCollectingCapsules then
+                    -- Collect research capsules
+                    collectResearchCapsules(currentRoomFolder)
+
+                    -- Find and teleport to the best generator
+                    local bestGenerator = findBestGenerator(currentRoomFolder)
+                    if bestGenerator then
+                        teleportToGenerator(bestGenerator)
+                        wait(0.1) -- Small delay to avoid overwhelming the loop
+                    end
+
+                    -- Monitor monsters and handle chasing behavior
+                    monitorAllMonsters(currentRoomFolder)
+                end
+
+                -- Wait a small amount of time before repeating the loop
+                wait(0.5)
+            end
+        end)
+
+        -- Start the main loop coroutine
+        coroutine.resume(mainLoopCoroutine)
+    end
+end
+
+-- Connect toggle button to the script control function
+toggleButton.MouseButton1Click:Connect(toggleScript)
+
+-- Close button functionality to close the GUI
+local function closeGui()
+    screenGui:Destroy()
+end
+
+closeButton.MouseButton1Click:Connect(closeGui)
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "Auto Skill Check GUI",
+    Description = "Just click toggle",
+    Callback = function()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/Dandy's-World-ALPHA-Dandy-s-Auto-Skill-Check-21849"))()
+    end
+})
+
+local Section = Tabs.Main:AddSection("Misc")
+
+Tabs.Main:AddButton({
+    Title = "Auto GTE",
+    Description = "Use After floor 1",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/A8j6QYfT"))();
+    end
+})
+
+
+local Section = Tabs.Main2:AddSection("Misc 2")
+
+Tabs.Main2:AddButton({
+    Title = "Noclip",
+    Description = "Works after floor 1",
+    Callback = function()
+        local currentRoom = game.Workspace:FindFirstChild("CurrentRoom")
+
+if currentRoom then
+    -- Busca un modelo dentro de "CurrentRoom"
+    local model = currentRoom:FindFirstChildOfClass("Model")
+    
+    if model then
+        -- Busca una carpeta llamada "FreeArea" dentro del modelo
+        local freeArea = model:FindFirstChild("FreeArea")
+        
+        if freeArea then
+            -- Recorre todos los objetos dentro de "FreeArea" para eliminar los que se llaman "InvisBorder"
+            for _, child in ipairs(freeArea:GetChildren()) do
+                if child:IsA("Part") and child.Name == "InvisBorder" then
+                    child:Destroy()
+                end
+            end
+        else
+            warn("No se encontró la carpeta 'FreeArea' dentro del modelo.")
+        end
+    else
+        warn("No se encontró un modelo dentro de 'CurrentRoom'.")
+    end
+else
+    warn("No se encontró la carpeta 'CurrentRoom' en el Workspace.")
+end
+    end
+})
+
+Tabs.Main2:AddButton({
+    Title = "Float GUI",
+    Description = "Very good for distractors",
+    Callback = function()
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local platform = Instance.new("Part")
+local gui = Instance.new("ScreenGui")
+local upButton = Instance.new("TextButton")
+local downButton = Instance.new("TextButton")
+
+-- Configurar plataforma
+platform.Size = Vector3.new(5, 1, 5)
+platform.Anchored = true
+platform.BrickColor = BrickColor.new("Really black")
+platform.Material = Enum.Material.Neon
+platform.Position = humanoidRootPart.Position + Vector3.new(0, -3, 0) -- Inicial en una altura debajo del jugador
+platform.Parent = workspace
+
+-- Configurar GUI
+gui.Name = "PlatformControl"
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Configurar botón arriba
+upButton.Name = "UpButton"
+upButton.Size = UDim2.new(0, 100, 0, 50)
+upButton.Position = UDim2.new(0.8, 0, 0.7, 0)
+upButton.Text = "↑"
+upButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+upButton.Parent = gui
+
+-- Configurar botón abajo
+downButton.Name = "DownButton"
+downButton.Size = UDim2.new(0, 100, 0, 50)
+downButton.Position = UDim2.new(0.8, 0, 0.8, 0)
+downButton.Text = "↓"
+downButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+downButton.Parent = gui
+
+-- Función para mover la plataforma
+local step = 2 -- Distancia de movimiento
+local function movePlatform(direction)
+    platform.Position = platform.Position + Vector3.new(0, step * direction, 0)
+end
+
+-- Conectar botones
+upButton.MouseButton1Click:Connect(function()
+    movePlatform(1)
+end)
+
+downButton.MouseButton1Click:Connect(function()
+    movePlatform(-1)
+end)
+
+-- Función para hacer que la plataforma siga al jugador
+game:GetService("RunService").Heartbeat:Connect(function()
+    -- Actualizar la posición de la plataforma para que siga al jugador en X y Z
+    local newPosition = Vector3.new(humanoidRootPart.Position.X, platform.Position.Y, humanoidRootPart.Position.Z)
+    platform.Position = newPosition
+end)
+    end
+})
+
+local Slider = Tabs.Main2:AddSlider("Slider", 
+{
+    Title = "JumpPower",
+    Description = "Change JumpPower",
+    Default = 0,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Callback = function(JumpPower)
+        local player = game.Players.LocalPlayer -- Obtiene el jugador local
+local character = player.Character or player.CharacterAdded:Wait() -- Asegura que el personaje esté disponible
+
+-- Cambia el JumpPower
+local newJumpPower = JumpPower -- Cambia este valor al que desees
+character.Humanoid.JumpPower = newJumpPower
+
+-- Opcional: Mensaje de confirmación
+print("El JumpPower ha sido cambiado a " .. newJumpPower)
+    end
+})
+
+Tabs.Main2:AddButton({
+    Title = "No fog",
+    Description = "Removes Fog",
+    Callback = function()
+        game.Lighting.FogEnd = math.huge  
+game.Lighting.FogStart = math.huge  
+game.Lighting.FogColor = Color3.new(1, 1, 1)  
+
+print("Niebla removida exitosamente.")
+    end
+})
+
+local Section = Tabs.Main2:AddSection("Self Boosts")
+
+Tabs.Main2:AddButton({
+    Title = "Auto Shelly Boost",
+    Description = "When u do a machine while using shelly u will get boosted",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerModel = workspace:FindFirstChild("InGamePlayers"):FindFirstChild(player.Name)
+
+if playerModel then
+    local currentRoom = workspace:FindFirstChild("CurrentRoom")
+    
+    if currentRoom then
+        while true do
+            for _, model in ipairs(currentRoom:GetChildren()) do
+                local generatorsFolder = model:FindFirstChild("Generators")
+                
+                if generatorsFolder then
+                    for _, generator in ipairs(generatorsFolder:GetChildren()) do
+                        local statsFolder = generator:FindFirstChild("Stats")
+                        
+                        if statsFolder then
+                            local activePlayer = statsFolder:FindFirstChild("ActivePlayer")
+                            
+                            if activePlayer and activePlayer.Value == playerModel then
+                                -- Activar el script y hacer print
+                                print("El ActivePlayer está activo para el jugador:", player.Name)
+                                
+                                local args = {
+                                    [1] = player.Character,
+                                    [2] = CFrame.new(-179.29843139648438, 146.2311248779297, -164.61495971679688) * CFrame.Angles(3.1415927410125732, 0.4017193913459778, -3.141592502593994),
+                                    [3] = player.Character
+                                }
+
+                                game:GetService("ReplicatedStorage").Events.AbilityEvent:InvokeServer(unpack(args))
+                            end
+                        end
+                    end
+                end
+            end
+            wait(1)  -- Esperar 1 segundo antes de verificar nuevamente
+        end
+    end
+end
+    end
+})
+
+Tabs.Main2:AddButton({
+    Title = "Heal yourself",
+    Description = "Use with Sprout",
+    Callback = function()
+        local args = {
+    [1] = game:GetService("Players").LocalPlayer.Character,
+    [2] = CFrame.new(-179.29843139648438, 146.2311248779297, -164.61495971679688) * CFrame.Angles(3.1415927410125732, 0.4017193913459778, -3.141592502593994),
+    [3] = game:GetService("Players").LocalPlayer.Character
+}
+
+game:GetService("ReplicatedStorage").Events.AbilityEvent:InvokeServer(unpack(args))
+    end
+})
+
+local Section = Tabs.Main2:AddSection("Unuseful")
+
+Tabs.Main2:AddButton({
+    Title = "Show a old gui for 5 seconds",
+    Description = "Shows a descarted GUI. Only in-game",
+    Callback = function()
+        local player = game:GetService("Players").LocalPlayer
+local selectionFrame2 = player.PlayerGui.ScreenGui:FindFirstChild("SelectionFrame2")
+
+if selectionFrame2 then
+    selectionFrame2.Visible = true -- Hacer que el frame sea visible
+
+    wait(5) -- Esperar 5 segundos
+
+    selectionFrame2.Visible = false -- Ocultar el frame
+end
+    end
+})
+
+Tabs.Main2:AddButton({
+    Title = "Lobotomy ",
+    Description = "VOLUME WARNING. By slendyvn",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Slendyvn/Dandy-script/refs/heads/main/E"))()
+    end
+})
+
+Tabs.Main2:AddButton({
+    Title = "Delete dev door lobby",
+    Description = "This is Client-Sided",
+    Callback = function()
+   workspace.DevDoor:Destroy()
+wait(1)
+workspace.DevDoor2:Destroy()
+    end
+})
+
+local Section = Tabs.Main2:AddSection("Performance Options")
+
+Tabs.Main2:AddButton({
+    Title = "Anti Lag",
+    Description = "Makes your dont lag so much",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Función para reducir el lag
+local function reduceLag()
+    -- Desactiva y elimina texturas y efectos visuales en el entorno de Workspace
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("Decal") or part:IsA("Texture") or part:IsA("ParticleEmitter") then
+            part:Destroy()  -- Elimina efectos visuales
+        elseif part:IsA("MeshPart") then
+            part.TextureID = ""  -- Elimina la textura de la MeshPart
+            part.Material = Enum.Material.SmoothPlastic  -- Cambia el material para simplificar
+            part.Reflectance = 0
+        elseif part:IsA("BasePart") and part.Transparency < 1 then
+            part.Material = Enum.Material.SmoothPlastic  -- Cambia materiales para mejorar rendimiento
+            part.Reflectance = 0
+        end
+    end
+
+    -- Desactiva efectos visuales de la herramienta o accesorios del jugador
+    for _, accessory in pairs(character:GetChildren()) do
+        if accessory:IsA("Accessory") then
+            for _, descendant in pairs(accessory:GetDescendants()) do
+                if descendant:IsA("ParticleEmitter") or descendant:IsA("Decal") or descendant:IsA("Texture") then
+                    descendant:Destroy()
+                end
+            end
+        end
+    end
+
+    -- Ajusta la iluminación del juego para reducir el consumo de recursos
+    game.Lighting.GlobalShadows = false
+    game.Lighting.Brightness = 1
+    game.Lighting.OutdoorAmbient = Color3.new(1, 1, 1)
+
+    -- Desactiva sonidos innecesarios
+    for _, sound in pairs(workspace:GetDescendants()) do
+        if sound:IsA("Sound") then
+            sound:Stop()  -- Detiene sonidos, pero no los elimina
+        end
+    end
+
+    -- Ajusta los efectos visuales de la interfaz de usuario
+    for _, uiElement in pairs(player.PlayerGui:GetDescendants()) do
+        if uiElement:IsA("ImageLabel") or uiElement:IsA("ImageButton") then
+            uiElement.ImageTransparency = 1  -- Reduce la visibilidad de las imágenes en lugar de ocultarlas completamente
+        end
+    end
+end
+
+-- Ejecuta la función de reducción de lag
+reduceLag()
+    end
+})
+
+Tabs.Main2:AddButton({
+    Title = "Display FPS",
+    Description = "Shows FPS",
+    Callback = function()
+        local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Name = "FPSGui"
+
+local fpsLabel = Instance.new("TextLabel")
+fpsLabel.Parent = screenGui
+fpsLabel.Size = UDim2.new(0, 200, 0, 50)  -- Tamaño del texto
+fpsLabel.Position = UDim2.new(0, 10, 0, 10)  -- Posición en la esquina superior izquierda
+fpsLabel.BackgroundTransparency = 1  -- Fondo transparente
+fpsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Color blanco
+fpsLabel.TextStrokeTransparency = 0.5  -- Borde de texto semitransparente
+fpsLabel.TextSize = 24
+fpsLabel.Font = Enum.Font.SourceSansBold
+
+-- Crear un UIGradient para el efecto de color
+local uiGradient = Instance.new("UIGradient")
+uiGradient.Parent = fpsLabel
+
+-- Variables para calcular FPS
+local lastTime = tick()
+local frameCount = 0
+
+-- Actualizar los FPS cada segundo
+game:GetService("RunService").RenderStepped:Connect(function()
+    frameCount = frameCount + 1
+    local currentTime = tick()
+    
+    -- Si ha pasado un segundo, actualizar el texto de FPS
+    if currentTime - lastTime >= 0.5 then
+        local fps = frameCount
+        fpsLabel.Text = "FPS: " .. tostring(fps)
+        frameCount = 0
+        lastTime = currentTime
+
+        -- Cambiar el color del texto y el gradiente si los FPS son menores a 20
+        if fps < 20 then
+            local redValue = math.clamp(1 - (fps / 20), 0, 1) -- Calcular el valor rojo basado en los FPS
+            fpsLabel.TextColor3 = Color3.fromRGB(255 * redValue, 0, 0) -- Cambiar el color del texto a rojo
+            uiGradient.Color = ColorSequence.new(Color3.fromRGB(255 * redValue, 0, 0), Color3.fromRGB(255, 0, 0)) -- Aplicar el gradiente rojo
+           uiGradient.Rotation = 90
+        else
+            fpsLabel.TextColor3 = Color3.fromRGB(255, 255, 255) -- Volver al color blanco
+            uiGradient.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 255, 255)) -- Gradiente transparente
+        end
+    end
+end)
+    end
+})
+
+local Section = Tabs.Main3:AddSection("Troll")
+
+Tabs.Main3:AddButton({
+    Title = "Bang Players GUI",
+    Description = "Bangs Players",
+    Callback = function()
+        local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+-- Obtener el jugador local y su personaje
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Crear GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 300, 0, 300)
+frame.Position = UDim2.new(0.5, -150, 0.5, -150)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+frame.Draggable = true
+frame.Active = true
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0.2, 0, 0.15, 0)
+closeButton.Position = UDim2.new(0.8, 0, 0, 0)
+closeButton.Text = "X"
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.Parent = frame
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(0.9, 0, 0.1, 0)
+titleLabel.Position = UDim2.new(0.05, 0, 0.05, 0)
+titleLabel.Text = "Dandy's world player banger🤑"
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.TextScaled = true
+titleLabel.Parent = frame
+
+local instructionLabel = Instance.new("TextLabel")
+instructionLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
+instructionLabel.Position = UDim2.new(0.1, 0, 0.15, 0)
+instructionLabel.Text = "Enter Player Name:"
+instructionLabel.BackgroundTransparency = 1
+instructionLabel.TextColor3 = Color3.new(1, 1, 1)
+instructionLabel.Parent = frame
+
+local textBox = Instance.new("TextBox")
+textBox.Size = UDim2.new(0.8, 0, 0.3, 0)
+textBox.Position = UDim2.new(0.1, 0, 0.35, 0)
+textBox.PlaceholderText = "Enter player name"
+textBox.Text = ""
+textBox.Parent = frame
+
+local confirmButton = Instance.new("TextButton")
+confirmButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+confirmButton.Position = UDim2.new(0.1, 0, 0.68, 0)
+confirmButton.Text = "Confirm"
+confirmButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+confirmButton.TextColor3 = Color3.new(1, 1, 1)
+confirmButton.Parent = frame
+
+local followingLabel = Instance.new("TextLabel")
+followingLabel.Size = UDim2.new(0.8, 0, 0.15, 0)
+followingLabel.Position = UDim2.new(0.1, 0, 0.85, 0)
+followingLabel.BackgroundTransparency = 1
+followingLabel.TextColor3 = Color3.new(1, 1, 1)
+followingLabel.Text = "Currently following: None"
+followingLabel.Parent = frame
+
+local stopButton = Instance.new("TextButton")
+stopButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+stopButton.Position = UDim2.new(0.1, 0, 0.75, 0)
+stopButton.Text = "Stop Banging"
+stopButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+stopButton.TextColor3 = Color3.new(1, 1, 1)
+stopButton.Parent = frame
+
+-- TextLabel para mensajes de error
+local errorLabel = Instance.new("TextLabel")
+errorLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
+errorLabel.Position = UDim2.new(0.1, 0, 0.25, 0)
+errorLabel.BackgroundTransparency = 1
+errorLabel.TextColor3 = Color3.fromRGB(1, 0, 0)
+errorLabel.Text = ""
+errorLabel.Parent = frame
+
+-- Variables de seguimiento
+local targetPlayer = nil
+local followSpeed = 50 -- Aumentar la velocidad de seguimiento
+local animationId = "rbxassetid://17561277632"
+local animation = Instance.new("Animation")
+animation.AnimationId = animationId
+local animationTrack
+
+-- Función para buscar el primer jugador cuyo nombre comienza con el texto ingresado
+local function autocompletePlayerName(input)
+    for _, potentialTarget in ipairs(Players:GetPlayers()) do
+        if potentialTarget.DisplayName:lower():sub(1, #input) == input:lower() then
+            if potentialTarget.DisplayName ~= potentialTarget.Name then
+                errorLabel.Text = "Wrong, maybe u wanted to try: " .. potentialTarget.Name
+            end
+            return potentialTarget
+        elseif potentialTarget.Name:lower():sub(1, #input) == input:lower() then
+            return potentialTarget
+        end
+    end
+    return nil
+end
+
+-- Evento cuando se presiona el botón de confirmación
+confirmButton.MouseButton1Click:Connect(function()
+    local inputText = textBox.Text
+    local playerMatch = autocompletePlayerName(inputText)
+
+    if playerMatch then
+        targetPlayer = playerMatch
+        followingLabel.Text = "Currently following: " .. targetPlayer.Name
+        errorLabel.Text = ""
+        print("Following:", targetPlayer.Name)
+
+        -- Reproducir la animación
+        animationTrack = humanoid:LoadAnimation(animation)
+        animationTrack:Play()
+    else
+        errorLabel.Text = "Invalid Username"
+        print("Player not found.")
+    end
+end)
+
+-- Evento cuando se presiona el botón de detener seguimiento
+stopButton.MouseButton1Click:Connect(function()
+    targetPlayer = nil
+    followingLabel.Text = "Currently following: None"
+    errorLabel.Text = ""
+    print("Stopped following.")
+    
+    -- Detener la animación
+    if animationTrack then
+        animationTrack:Stop()
+    end
+end)
+
+-- Función para seguir al objetivo
+local function followTarget()
+    if targetPlayer and targetPlayer.Character then
+        local targetRoot = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if targetRoot then
+            -- Calcular la posición detrás del objetivo
+            local behindPosition = targetRoot.Position - (targetRoot.CFrame.LookVector * 3)
+
+            -- Girar hacia el objetivo
+            rootPart.CFrame = CFrame.new(rootPart.Position, targetRoot.Position)
+
+            -- Moverse hacia la posición detrás del objetivo
+            local distance = (behindPosition - rootPart.Position).magnitude
+            if distance > 2 then
+                local direction = (behindPosition - rootPart.Position).unit
+                rootPart.Velocity = direction * followSpeed
+            else
+                rootPart.Velocity = Vector3.new(0, 0, 0)
+            end
+        end
+    else
+        rootPart.Velocity = Vector3.new(0, 0, 0)
+    end
+end
+
+-- Actualizar la posición cada frame
+RunService.Heartbeat:Connect(followTarget)
+    end
+})
+
+local Slider = Tabs.Main3:AddSlider("Slider", 
+{
+    Title = "Spin",
+    Description = "U cant stop spining",
+    Default = 0,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
+    Callback = function(force)
+        power = force 
+
+game:GetService('RunService').Stepped:connect(function()
+    game.Players.LocalPlayer.Character.Head.CanCollide = true
+    game.Players.LocalPlayer.Character.UpperTorso.CanCollide = false
+    game.Players.LocalPlayer.Character.LowerTorso.CanCollide = false
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
+end)
+wait(.1)
+local bambam = Instance.new("BodyThrust")
+bambam.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+bambam.Force = Vector3.new(power,0,power)
+bambam.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+    end
+})
+
+local Section = Tabs.Main3:AddSection("Animations")
+
+Tabs.Main3:AddButton({
+    Title = "Flutter Ability",
+    Description = "Makes Flutter's ability animation",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crea la animación
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://18226927388"  -- ID de la animación
+
+-- Carga la animación
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Función para reproducir la animación
+local function playAnimation()
+    animationTrack:Play()  -- Reproduce la animación
+end
+
+-- Llama a la función para reproducir la animación
+playAnimation()
+    end
+})
+
+Tabs.Main3:AddButton({
+    Title = "Shrimpo Extract",
+    Description = "Makes you bang or exract idk",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crea la animación
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://17561277632"  -- ID de la animación
+
+-- Carga la animación
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Función para reproducir la animación
+local function playAnimation()
+    animationTrack:Play()  -- Reproduce la animación
+end
+
+-- Llama a la función para reproducir la animación
+playAnimation()
+    end
+})
+
+Tabs.Main3:AddButton({
+    Title = "Twisted Rizz and Dizz Sit anim",
+    Description = "Makes you sit",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crea la animación
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://18989418012"  -- ID de la animación
+
+-- Carga la animación
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Función para reproducir la animación
+local function playAnimation()
+    animationTrack:Play()  -- Reproduce la animación
+end
+
+-- Llama a la función para reproducir la animación
+playAnimation()
+    end
+})
+
+Tabs.Main3:AddButton({
+    Title = "Boxten Wave",
+    Description = "Makes you wave",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crea la animación
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://17059625743"  -- ID de la animación
+
+-- Carga la animación
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Función para reproducir la animación
+local function playAnimation()
+    animationTrack:Play()  -- Reproduce la animación
+end
+
+-- Llama a la función para reproducir la animación
+playAnimation()
+    end
+})
+
+Tabs.Main3:AddButton({
+    Title = "Twisted Flutter chase",
+    Description = "Makes you do twisted flutter chase",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crea la animación
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://18239928544"  -- ID de la animación
+
+-- Carga la animación
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Función para reproducir la animación
+local function playAnimation()
+    animationTrack:Play()  -- Reproduce la animación
+end
+
+-- Llama a la función para reproducir la animación
+playAnimation()
+    end
+})
+
+Tabs.Main3:AddButton({
+    Title = "Tisha Clean",
+    Description = "¡SWEEP THE FLOOR!",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Crea la animación
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://18167087346"  -- ID de la animación
+
+-- Carga la animación
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Función para reproducir la animación
+local function playAnimation()
+    animationTrack:Play()  -- Reproduce la animación
+end
+
+-- Llama a la función para reproducir la animación
+playAnimation()
+    end
+})
+
+local Section = Tabs.Main3:AddSection("Client-Sideds to show")
+
+
+Tabs.Main3:AddButton({
+    Title = "Fake Admin Panel",
+    Description = "Shows a not working admin gui",
+    Callback = function()
+        local devframe = game.ReplicatedStorage.Admin.DevFrame
+
+devframe.Frame.Visible = true
+devframe.Frame.Parent = game.Players.LocalPlayer.PlayerGui.MainGui
+    end
+})
+
+Tabs.Main3:AddButton({
+    Title = "Fake get all toons",
+    Description = "Reset after clicking",
+    Callback = function()
+        local player = game.Players.LocalPlayer.UserId
+local folder = game.ReplicatedStorage.PlayerData:FindFirstChild(player).Towers
+
+local names = {"Boxten", "Brightney", "Cosmo", "Finn", "Flutter", "Gigi", "Glisten", "Goob", "Poppy", "RazzleDazzle", "Rodger", "Scraps", "Shrimpo", "Teagan", "Tisha", "Toodles", "Sprout", "Vee", "Dandy", "Shelly", "Pebble", "Astro", "Dandy"}
+for _, name in pairs(names) do
+    local toon = Instance.new("StringValue", folder)
+    toon.Name = name
+    toon.Value = "Default"
+end
+    end
+})
+
+local Slider = Tabs.Main3:AddSlider("Slider", 
+{
+    Title = "Fake Ichor",
+    Description = "Gets Fake ichor",
+    Default = 0,
+    Min = 1,
+    Max = 100000,
+    Rounding = 100,
+    Callback = function(Value)
+        local player = game.Players.LocalPlayer.UserId
+
+game.ReplicatedStorage.PlayerData:FindFirstChild(player).Coin.Value += (Value)
+    end
+})
+
+local Slider = Tabs.Main3:AddSlider("Slider", 
+{
+    Title = "Fake Furthest floor",
+    Description = "Change your stats furthest floor",
+    Default = 0,
+    Min = 1,
+    Max = 1000,
+    Rounding = 1,
+    Callback = function(Floor)
+        local player = game.Players.LocalPlayer.UserId
+
+game.ReplicatedStorage.PlayerData:FindFirstChild(player).HighestFloor.Value = Floor
+    end
+})
+
+local Section = Tabs.Main4:AddSection("¡Great Skins!")
+
+Tabs.Main4:AddButton({
+    Title = "Plushie Dandy",
+    Description = "Skin for client sided dandy",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerName = player.Name
+local workspace = game.Workspace
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+
+if inGamePlayersFolder then
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    if playerModel then
+        local bodyPart = playerModel:FindFirstChild("Body")
+        local headPart = playerModel:FindFirstChild("Head")
+        
+        if bodyPart and bodyPart:IsA("MeshPart") then
+            bodyPart.TextureID = "rbxassetid://18857813525"
+        end
+        
+        if headPart and headPart:IsA("MeshPart") then
+            headPart.TextureID = "rbxassetid://18857813525"
+        end
+    else
+        warn("Modelo del jugador no encontrado en la carpeta InGamePlayers.")
+    end
+else
+    warn("Carpeta InGamePlayers no encontrada en Workspace.")
+end
+    end
+})
+
+
+Tabs.Main4:AddButton({
+    Title = "Blue Vee",
+    Description = "Use normal Vee",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerName = player.Name
+local workspace = game:GetService("Workspace")
+
+-- IDs de las texturas y mesh a aplicar
+local bodyTextureId = "rbxassetid://18944440468"
+local micMeshId = "rbxassetid://102768583995591"
+local headTextureId = "rbxassetid://18944440468"
+
+-- Buscar la carpeta y el modelo del jugador
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+if inGamePlayersFolder then
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    if playerModel then
+        -- Cambiar textura de 'Body'
+        local body = playerModel:FindFirstChild("Body")
+        if body and body:IsA("MeshPart") then
+            body.TextureID = bodyTextureId
+        end
+
+        -- Cambiar mesh de 'Mic' y ajustar la transparencia
+        local mic = playerModel:FindFirstChild("Mic")
+        if mic and mic:IsA("MeshPart") then
+            mic.MeshId = micMeshId
+            -- Cambiar transparencia del Mic a 1 (totalmente transparente)
+            mic.Transparency = 1
+        end
+
+        -- Cambiar textura de 'Head'
+        local head = playerModel:FindFirstChild("Head")
+        if head and head:IsA("MeshPart") then
+            head.TextureID = headTextureId
+        end
+    end
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Crewmate Pebble",
+    Description = "Sus",
+    Callback = function()
+        
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local playerName = player.Name
+
+-- Ruta a la carpeta InGamePlayers en Workspace
+local inGamePlayersFolder = game.Workspace:FindFirstChild("InGamePlayers")
+
+-- Verificar si la carpeta existe
+if inGamePlayersFolder then
+    -- Buscar el modelo del jugador dentro de la carpeta
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    
+    if playerModel and playerModel:IsA("Model") then
+        -- Buscar el UpperTorso dentro del modelo
+        local upperTorso = playerModel:FindFirstChild("UpperTorso")
+        
+        if upperTorso and upperTorso:IsA("MeshPart") then
+            -- Cambiar el TextureId del UpperTorso
+            local torsoTextureId = "rbxassetid://4869480081"
+            upperTorso.TextureID = torsoTextureId
+            
+            -- Crear y agregar el Decal
+            local decal = Instance.new("Decal")
+            decal.Texture = "rbxassetid://6304109909"
+            decal.Face = Enum.NormalId.Front
+            decal.Parent = upperTorso
+            
+            -- Buscar y cambiar el TextureId de Tail si existe
+            local tail = playerModel:FindFirstChild("Tail")
+            if tail and tail:IsA("MeshPart") then
+                tail.TextureID = torsoTextureId
+            end
+        end
+        
+        -- Cambiar el TextureId de las MeshParts de las piernas
+        local legTextureId = "rbxassetid://6129640881"
+        local legParts = {"LegRF", "LegRB", "LegLF", "LegLB"}
+        for _, partName in ipairs(legParts) do
+            local legPart = playerModel:FindFirstChild(partName)
+            if legPart and legPart:IsA("MeshPart") then
+                legPart.TextureID = legTextureId
+            end
+        end
+        
+        -- Buscar y eliminar las MeshParts EyeL y EyeR
+        local eyeL = playerModel:FindFirstChild("EyeL")
+        local eyeR = playerModel:FindFirstChild("EyeR")
+        
+        if eyeL and eyeL:IsA("MeshPart") then
+            eyeL:Destroy()
+        end
+        if eyeR and eyeR:IsA("MeshPart") then
+            eyeR:Destroy()
+        end
+    end
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Preppy Cosmo",
+    Description = "I feel preppy",
+    Callback = function()
+local player = game.Players.LocalPlayer
+
+-- Verificamos si la carpeta "InGamePlayers" existe en Workspace
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+if inGamePlayersFolder then
+    -- Buscamos un modelo con el mismo nombre que el jugador
+    local playerModel = inGamePlayersFolder:FindFirstChild(player.Name)
+    if playerModel then
+        -- Iteramos a través de los hijos del modelo para encontrar MeshParts
+        for _, part in ipairs(playerModel:GetDescendants()) do
+            if part:IsA("MeshPart") and part.TextureID then
+                -- Cambiamos la textura según el nombre de la parte
+                if part.Name == "LegL" or part.Name == "LegR" or part.Name == "LegL2" or part.Name == "LegR2" then
+                    part.TextureID = "rbxassetid://107645736113072"
+                elseif part.Name == "ArmL" or part.Name == "ArmL2" or part.Name == "ArmR" or part.Name == "ArmR2" then
+                    part.TextureID = "rbxassetid://107645736113072"
+                elseif part.Name == "HandL" or part.Name == "HandR" then
+                    part.TextureID = "rbxassetid://107645736113072"
+                elseif part.Name == "Head" then
+                    part.TextureID = "rbxassetid://107645736113072"
+                end
+            end
+        end
+    else
+        warn("No se encontró un modelo con el nombre del jugador.")
+    end
+else
+    warn("No se encontró la carpeta 'InGamePlayers' en Workspace.")
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Preppy Sprout",
+    Description = "¡I feel preppy too!",
+    Callback = function()
+local player = game.Players.LocalPlayer
+
+-- Verificamos si la carpeta "InGamePlayers" existe en Workspace
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+if inGamePlayersFolder then
+    -- Buscamos un modelo con el mismo nombre que el jugador
+    local playerModel = inGamePlayersFolder:FindFirstChild(player.Name)
+    if playerModel then
+        -- Iteramos a través de los hijos del modelo para encontrar MeshParts
+        for _, part in ipairs(playerModel:GetDescendants()) do
+            if part:IsA("MeshPart") and part.TextureID then
+                -- Cambiamos la textura según el nombre de la parte
+                if part.Name == "ArmL" or part.Name == "ArmL2" or
+                   part.Name == "ArmR" or part.Name == "ArmR2" or
+                   part.Name == "Body" or
+                   part.Name == "HandL" or part.Name == "HandR" or
+                   part.Name == "LegL" or part.Name == "LegL2" or
+                   part.Name == "LegR" or part.Name == "LegR2" or
+                   part.Name == "Scarf1" or part.Name == "Scarf2" or
+                   part.Name == "Head" then
+                    part.TextureID = "rbxassetid://85431558188198"
+                end
+            end
+        end
+    else
+        warn("No se encontró un modelo con el nombre del jugador.")
+    end
+else
+    warn("No se encontró la carpeta 'InGamePlayers' en Workspace.")
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Preppy Vee",
+    Description = "¡I can be preppy too!",
+    Callback = function()
+local player = game.Players.LocalPlayer
+
+-- Verificamos si la carpeta "InGamePlayers" existe en Workspace
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+if inGamePlayersFolder then
+    -- Buscamos un modelo con el mismo nombre que el jugador
+    local playerModel = inGamePlayersFolder:FindFirstChild(player.Name)
+    if playerModel then
+        -- Iteramos a través de los hijos del modelo para encontrar MeshParts
+        for _, part in ipairs(playerModel:GetDescendants()) do
+            if part:IsA("MeshPart") and part.TextureID then
+                -- Cambiamos la textura según el nombre de la parte
+                if part.Name == "ArmL" or part.Name == "ArmL2" or
+                   part.Name == "ArmR" or part.Name == "ArmR2" or
+                   part.Name == "Body" or part.Name == "Head" or
+                   part.Name == "Mic" or
+                   part.Name == "LegL" or part.Name == "LegL2" or
+                   part.Name == "LegR" or part.Name == "LegR2" or
+                   part.Name == "HandL" or part.Name == "HandR" then
+                    part.TextureID = "rbxassetid://92449473603556"
+                end
+            end
+        end
+    else
+        warn("No se encontró un modelo con el nombre del jugador.")
+    end
+else
+    warn("No se encontró la carpeta 'InGamePlayers' en Workspace.")
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Preppy Shelly",
+    Description = "Preppy All",
+    Callback = function()
+        print("Hello, world!")
+    end
+})
+
+
+local Section = Tabs.Main4:AddSection("Regular Skins")
+
+Tabs.Main4:AddButton({
+    Title = "Happy Pebble",
+    Description = "Use regular pebble",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerName = player.Name
+local workspace = game:GetService("Workspace")
+
+-- IDs de las texturas a aplicar
+local eyeTextureId = "rbxassetid://18983090757"
+local torsoTextureId = "rbxassetid://18983090757"
+
+-- Buscar la carpeta y el modelo del jugador
+local inGamePlayersFolder = workspace:FindFirstChild("Players")
+if inGamePlayersFolder then
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    if playerModel then
+        -- Cambiar textura de 'EyeL'
+        local eyeL = playerModel:FindFirstChild("EyeL")
+        if eyeL and eyeL:IsA("MeshPart") then
+            eyeL.TextureID = eyeTextureId
+        end
+
+        -- Cambiar textura de 'EyeR'
+        local eyeR = playerModel:FindFirstChild("EyeR")
+        if eyeR and eyeR:IsA("MeshPart") then
+            eyeR.TextureID = eyeTextureId
+        end
+
+        -- Cambiar textura de 'UpperTorso'
+        local upperTorso = playerModel:FindFirstChild("UpperTorso")
+        if upperTorso and upperTorso:IsA("MeshPart") then
+            upperTorso.TextureID = torsoTextureId
+        end
+    end
+end
+    end
+})
+
+
+Tabs.Main4:AddButton({
+    Title = "Sussy Pebble",
+    Description = "Weird Pebble skin",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerName = player.Name
+local workspace = game.Workspace
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+
+if inGamePlayersFolder then
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    if playerModel then
+        -- Buscar EyeL, EyeR, y UpperTorso y cambiar sus texturas si existen y son MeshParts
+        local eyeL = playerModel:FindFirstChild("EyeL")
+        local eyeR = playerModel:FindFirstChild("EyeR")
+        local upperTorso = playerModel:FindFirstChild("UpperTorso")
+        
+        if eyeL and eyeL:IsA("MeshPart") then
+            eyeL.TextureID = "rbxassetid://18865385829"
+        end
+        
+        if eyeR and eyeR:IsA("MeshPart") then
+            eyeR.TextureID = "rbxassetid://18865385829"
+        end
+        
+        if upperTorso and upperTorso:IsA("MeshPart") then
+            upperTorso.TextureID = "rbxassetid://18865385829"
+        end
+    else
+        warn("Modelo del jugador no encontrado en la carpeta InGamePlayers.")
+    end
+else
+    warn("Carpeta InGamePlayers no encontrada en Workspace.")
+end
+    end
+})
+
+local Section = Tabs.Main4:AddSection("Bad Skins")
+
+Tabs.Main4:AddButton({
+    Title = "Bald Dandy",
+    Description = "Includes dandy rp Twisted",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerName = player.Name
+local workspace = game:GetService("Workspace")
+
+-- Buscar la carpeta y el modelo del jugador
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+if inGamePlayersFolder then
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    if playerModel then
+        -- Buscar y eliminar 'Hair' si existe
+        local hair = playerModel:FindFirstChild("Hair")
+        if hair and hair:IsA("MeshPart") then
+            hair:Destroy()
+        end
+    end
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Torsoless",
+    Description = "Removes Toons torso",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local playerName = player.Name
+local workspace = game:GetService("Workspace")
+
+local bodyMeshId = "rbxassetid://15394506615"
+local bodySize = Vector3.new(1, 2, 1)
+
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+if inGamePlayersFolder then
+    local playerModel = inGamePlayersFolder:FindFirstChild(playerName)
+    if playerModel then
+        local body = playerModel:FindFirstChild("Body")
+        if body and body:IsA("MeshPart") then
+            body.MeshId = bodyMeshId
+            body.Size = bodySize
+        end
+
+        local hat = playerModel:FindFirstChild("Hat")
+        if hat and hat:IsA("MeshPart") then
+            hat:Destroy()
+        end
+    end
+end
+    end
+})
+
+Tabs.Main4:AddButton({
+    Title = "Free Headless",
+    Description = "Me when no head",
+    Callback = function()
+        local player = game.Players.LocalPlayer -- Obtener al jugador que ejecuta el script
+local workspace = game.Workspace -- Referencia a Workspace
+
+-- Buscar la carpeta llamada "InGamePlayers"
+local inGamePlayersFolder = workspace:FindFirstChild("InGamePlayers")
+
+if inGamePlayersFolder then
+    -- Buscar un modelo dentro de la carpeta con el nombre del jugador
+    local playerModel = inGamePlayersFolder:FindFirstChild(player.Name)
+
+    if playerModel then
+        -- Buscar la MeshPart llamada "Head" dentro del modelo del jugador
+        local headMeshPart = playerModel:FindFirstChild("Head")
+
+        if headMeshPart and headMeshPart:IsA("MeshPart") then
+            -- Destruir la MeshPart
+            headMeshPart:Destroy()
+            print("Se eliminó la MeshPart llamada 'Head' del modelo:", playerModel.Name)
+        else
+            print("No se encontró una MeshPart llamada 'Head' en el modelo:", playerModel.Name)
+        end
+    else
+        print("No se encontró un modelo con el nombre del jugador dentro de 'InGamePlayers'.")
+    end
+else
+    print("No se encontró la carpeta 'InGamePlayers' en Workspace.")
+end
+    end
+})
+
+
+
+local Section = Tabs.Main5:AddSection("Toons Pack Anim")
+
+Tabs.Main5:AddButton({
+    Title = "Glisten animation pack",
+    Description = "Have Glisten animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, estar quieto y la animación especial
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://18789278688"  -- ID de la animación de caminar
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://18789173875"  -- ID de la animación de estar quieto
+local specialAnimation = Instance.new("Animation")
+specialAnimation.AnimationId = "rbxassetid://18789412964"  -- ID de la animación especial
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+local specialTrack = humanoid:LoadAnimation(specialAnimation)
+
+-- Función para detener todas las animaciones de caminar y especial, pero no la de estar quieto
+local function stopNonIdleAnimations()
+    for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
+        if track ~= idleTrack then
+            track:Stop()
+        end
+    end
+end
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        -- Si el jugador se está moviendo, reproducimos la animación de caminar
+        if not walkTrack.IsPlaying then
+            stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+            walkTrack:Play()
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()  -- Detenemos la animación de caminar si está jugando
+            specialTrack:Stop()  -- Detenemos la animación especial si está jugando
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Función para monitorear la carpeta Generators
+local function monitorGenerators()
+    local currentRoom = game.Workspace:WaitForChild("CurrentRoom")
+    
+    -- Verificamos si existe la carpeta Generators dentro del modelo
+    for _, model in ipairs(currentRoom:GetChildren()) do
+        local generators = model:FindFirstChild("Generators")
+        if generators then
+            for _, generator in ipairs(generators:GetChildren()) do
+                -- Verificamos si hay una carpeta Stats y un ObjectValue llamado ActivePlayer
+                local stats = generator:FindFirstChild("Stats")
+                if stats then
+                    local activePlayer = stats:FindFirstChild("ActivePlayer")
+                    if activePlayer then
+                        -- Si el ObjectValue ActivePlayer no tiene el jugador
+                        if activePlayer.Value ~= game.Workspace.InGamePlayers:FindFirstChild(player.Name) then
+                            -- Detenemos la animación especial y volvemos a las animaciones de caminar o estar quieto
+                            specialTrack:Stop()
+                            updateAnimation()
+                        else
+                            -- Si el jugador sigue siendo el valor de ActivePlayer, reproducimos la animación especial
+                            if not specialTrack.IsPlaying then
+                                stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+                                specialTrack:Play()
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Conectamos la función de actualización de animación al estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+
+-- Monitoreamos los generadores de manera constante
+while true do
+    monitorGenerators()
+    wait(2)  -- Verificamos cada segundo
+end
+    end
+})
+
+
+Tabs.Main5:AddButton({
+    Title = "Flutter anims pack",
+    Description = "Makes u have Flutter animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, estar quieto y la animación especial
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://18226261062"  -- ID de la animación de caminar
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://18226198149"  -- ID de la animación de estar quieto
+local specialAnimation = Instance.new("Animation")
+specialAnimation.AnimationId = "rbxassetid://18226338406"  -- ID de la animación especial
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+local specialTrack = humanoid:LoadAnimation(specialAnimation)
+
+-- Función para detener todas las animaciones de caminar y especial, pero no la de estar quieto
+local function stopNonIdleAnimations()
+    for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
+        if track ~= idleTrack then
+            track:Stop()
+        end
+    end
+end
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        -- Si el jugador se está moviendo, reproducimos la animación de caminar
+        if not walkTrack.IsPlaying then
+            stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+            walkTrack:Play()
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()  -- Detenemos la animación de caminar si está jugando
+            specialTrack:Stop()  -- Detenemos la animación especial si está jugando
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Función para monitorear la carpeta Generators
+local function monitorGenerators()
+    local currentRoom = game.Workspace:WaitForChild("CurrentRoom")
+    
+    -- Verificamos si existe la carpeta Generators dentro del modelo
+    for _, model in ipairs(currentRoom:GetChildren()) do
+        local generators = model:FindFirstChild("Generators")
+        if generators then
+            for _, generator in ipairs(generators:GetChildren()) do
+                -- Verificamos si hay una carpeta Stats y un ObjectValue llamado ActivePlayer
+                local stats = generator:FindFirstChild("Stats")
+                if stats then
+                    local activePlayer = stats:FindFirstChild("ActivePlayer")
+                    if activePlayer then
+                        -- Si el ObjectValue ActivePlayer no tiene el jugador
+                        if activePlayer.Value ~= game.Workspace.InGamePlayers:FindFirstChild(player.Name) then
+                            -- Detenemos la animación especial y volvemos a las animaciones de caminar o estar quieto
+                            specialTrack:Stop()
+                            updateAnimation()
+                        else
+                            -- Si el jugador sigue siendo el valor de ActivePlayer, reproducimos la animación especial
+                            if not specialTrack.IsPlaying then
+                                stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+                                specialTrack:Play()
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Conectamos la función de actualización de animación al estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+
+-- Monitoreamos los generadores de manera constante
+while true do
+    monitorGenerators()
+    wait(1)  -- Verificamos cada segundo
+end
+    end
+})
+
+Tabs.Main5:AddButton({
+    Title = "Dandy animations pack",
+    Description = "Makes you do dandy animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, estar quieto y la animación especial
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://16496812530"  -- ID de la animación de caminar
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://16496520991"  -- ID de la animación de estar quieto
+local specialAnimation = Instance.new("Animation")
+specialAnimation.AnimationId = "rbxassetid://16496852675"  -- ID de la animación especial
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+local specialTrack = humanoid:LoadAnimation(specialAnimation)
+
+-- Función para detener todas las animaciones de caminar y especial, pero no la de estar quieto
+local function stopNonIdleAnimations()
+    for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
+        if track ~= idleTrack then
+            track:Stop()
+        end
+    end
+end
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        -- Si el jugador se está moviendo, reproducimos la animación de caminar
+        if not walkTrack.IsPlaying then
+            stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+            walkTrack:Play()
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()  -- Detenemos la animación de caminar si está jugando
+            specialTrack:Stop()  -- Detenemos la animación especial si está jugando
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Función para monitorear la carpeta Generators
+local function monitorGenerators()
+    local currentRoom = game.Workspace:WaitForChild("CurrentRoom")
+    
+    -- Verificamos si existe la carpeta Generators dentro del modelo
+    for _, model in ipairs(currentRoom:GetChildren()) do
+        local generators = model:FindFirstChild("Generators")
+        if generators then
+            for _, generator in ipairs(generators:GetChildren()) do
+                -- Verificamos si hay una carpeta Stats y un ObjectValue llamado ActivePlayer
+                local stats = generator:FindFirstChild("Stats")
+                if stats then
+                    local activePlayer = stats:FindFirstChild("ActivePlayer")
+                    if activePlayer then
+                        -- Si el ObjectValue ActivePlayer no tiene el jugador
+                        if activePlayer.Value ~= game.Workspace.InGamePlayers:FindFirstChild(player.Name) then
+                            -- Detenemos la animación especial y volvemos a las animaciones de caminar o estar quieto
+                            specialTrack:Stop()
+                            updateAnimation()
+                        else
+                            -- Si el jugador sigue siendo el valor de ActivePlayer, reproducimos la animación especial
+                            if not specialTrack.IsPlaying then
+                                stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+                                specialTrack:Play()
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Conectamos la función de actualización de animación al estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+
+-- Monitoreamos los generadores de manera constante
+while true do
+    monitorGenerators()
+    wait(1)  -- Verificamos cada segundo
+end
+    end
+})
+
+Tabs.Main5:AddButton({
+    Title = "Gigi anim pack",
+    Description = "Makes you do gigi animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, estar quieto y la animación especial
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://17504345651"  -- ID de la animación de caminar
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://17504197216"  -- ID de la animación de estar quieto
+local specialAnimation = Instance.new("Animation")
+specialAnimation.AnimationId = "rbxassetid://17506059864"  -- ID de la animación especial
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+local specialTrack = humanoid:LoadAnimation(specialAnimation)
+
+-- Función para detener todas las animaciones de caminar y especial, pero no la de estar quieto
+local function stopNonIdleAnimations()
+    for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
+        if track ~= idleTrack then
+            track:Stop()
+        end
+    end
+end
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        -- Si el jugador se está moviendo, reproducimos la animación de caminar
+        if not walkTrack.IsPlaying then
+            stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+            walkTrack:Play()
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()  -- Detenemos la animación de caminar si está jugando
+            specialTrack:Stop()  -- Detenemos la animación especial si está jugando
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Función para monitorear la carpeta Generators
+local function monitorGenerators()
+    local currentRoom = game.Workspace:WaitForChild("CurrentRoom")
+    
+    -- Verificamos si existe la carpeta Generators dentro del modelo
+    for _, model in ipairs(currentRoom:GetChildren()) do
+        local generators = model:FindFirstChild("Generators")
+        if generators then
+            for _, generator in ipairs(generators:GetChildren()) do
+                -- Verificamos si hay una carpeta Stats y un ObjectValue llamado ActivePlayer
+                local stats = generator:FindFirstChild("Stats")
+                if stats then
+                    local activePlayer = stats:FindFirstChild("ActivePlayer")
+                    if activePlayer then
+                        -- Si el ObjectValue ActivePlayer no tiene el jugador
+                        if activePlayer.Value ~= game.Workspace.InGamePlayers:FindFirstChild(player.Name) then
+                            -- Detenemos la animación especial y volvemos a las animaciones de caminar o estar quieto
+                            specialTrack:Stop()
+                            updateAnimation()
+                        else
+                            -- Si el jugador sigue siendo el valor de ActivePlayer, reproducimos la animación especial
+                            if not specialTrack.IsPlaying then
+                                stopNonIdleAnimations()  -- Detenemos las animaciones de caminar y especial
+                                specialTrack:Play()
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- Conectamos la función de actualización de animación al estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+
+-- Monitoreamos los generadores de manera constante
+while true do
+    monitorGenerators()
+    wait(1)  -- Verificamos cada segundo
+end
+    end
+})
+
+
+local Section = Tabs.Main5:AddSection("Twisteds animation packs")
+
+Tabs.Main5:AddButton({
+    Title = "Twisted Astro",
+    Description = "Makes you get twisted astro animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, correr y estar quieto
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://17617109508"  -- Reemplaza con el ID de la animación de caminar
+local runAnimation = Instance.new("Animation")
+runAnimation.AnimationId = "rbxassetid://17617489384"  -- Reemplaza con el ID de la animación de correr
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://17616899088"  -- Reemplaza con el ID de la animación de estar quieto
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local runTrack = humanoid:LoadAnimation(runAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+
+-- Umbral de velocidad para correr (ajústalo según necesites)
+local runSpeedThreshold = 16  -- Velocidad mínima para considerar que está corriendo
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        if humanoid.WalkSpeed > runSpeedThreshold then
+            -- Si el jugador está corriendo, reproducimos la animación de correr
+            if not runTrack.IsPlaying then
+                walkTrack:Stop()
+                idleTrack:Stop()
+                runTrack:Play()
+            end
+        else
+            -- Si el jugador está caminando, reproducimos la animación de caminar
+            if not walkTrack.IsPlaying then
+                idleTrack:Stop()
+                runTrack:Stop()
+                walkTrack:Play()
+            end
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()
+            runTrack:Stop()
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Conectamos la función de actualización a la señal de cambio de estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+    end
+})
+
+Tabs.Main5:AddButton({
+    Title = "Twisted Boxten Pack ",
+    Description = "Makes you get twisted boxten animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, correr y estar quieto
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://17173980406"  -- Reemplaza con el ID de la animación de caminar
+local runAnimation = Instance.new("Animation")
+runAnimation.AnimationId = "rbxassetid://17174260770"  -- Reemplaza con el ID de la animación de correr
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://17173910857"  -- Reemplaza con el ID de la animación de estar quieto
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local runTrack = humanoid:LoadAnimation(runAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+
+-- Umbral de velocidad para correr (ajústalo según necesites)
+local runSpeedThreshold = 16  -- Velocidad mínima para considerar que está corriendo
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        if humanoid.WalkSpeed > runSpeedThreshold then
+            -- Si el jugador está corriendo, reproducimos la animación de correr
+            if not runTrack.IsPlaying then
+                walkTrack:Stop()
+                idleTrack:Stop()
+                runTrack:Play()
+            end
+        else
+            -- Si el jugador está caminando, reproducimos la animación de caminar
+            if not walkTrack.IsPlaying then
+                idleTrack:Stop()
+                runTrack:Stop()
+                walkTrack:Play()
+            end
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()
+            runTrack:Stop()
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Conectamos la función de actualización a la señal de cambio de estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+    end
+})
+
+
+Tabs.Main5:AddButton({
+    Title = "Twisted Glisten Pack ",
+    Description = "Makes you get twisted Glisten animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, correr y estar quieto
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://18821107251"  -- Reemplaza con el ID de la animación de caminar
+local runAnimation = Instance.new("Animation")
+runAnimation.AnimationId = "rbxassetid://18833020404"  -- Reemplaza con el ID de la animación de correr
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://18820870445"  -- Reemplaza con el ID de la animación de estar quieto
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local runTrack = humanoid:LoadAnimation(runAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+
+-- Umbral de velocidad para correr (ajústalo según necesites)
+local runSpeedThreshold = 16  -- Velocidad mínima para considerar que está corriendo
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        if humanoid.WalkSpeed > runSpeedThreshold then
+            -- Si el jugador está corriendo, reproducimos la animación de correr
+            if not runTrack.IsPlaying then
+                walkTrack:Stop()
+                idleTrack:Stop()
+                runTrack:Play()
+            end
+        else
+            -- Si el jugador está caminando, reproducimos la animación de caminar
+            if not walkTrack.IsPlaying then
+                idleTrack:Stop()
+                runTrack:Stop()
+                walkTrack:Play()
+            end
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()
+            runTrack:Stop()
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Conectamos la función de actualización a la señal de cambio de estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+    end
+})
+
+
+Tabs.Main5:AddButton({
+    Title = "Twisted Vee Pack",
+    Description = "Makes you get twisted Vee animations",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Cargamos las animaciones para caminar, correr y estar quieto
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = "rbxassetid://17320859447"  -- Reemplaza con el ID de la animación de caminar
+local runAnimation = Instance.new("Animation")
+runAnimation.AnimationId = "rbxassetid://17322657144"  -- Reemplaza con el ID de la animación de correr
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = "rbxassetid://17320732816"  -- Reemplaza con el ID de la animación de estar quieto
+
+-- Variables para las animaciones
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local runTrack = humanoid:LoadAnimation(runAnimation)
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+
+-- Umbral de velocidad para correr (ajústalo según necesites)
+local runSpeedThreshold = 16  -- Velocidad mínima para considerar que está corriendo
+
+-- Función para actualizar la animación según la velocidad del jugador
+local function updateAnimation()
+    if humanoid.MoveDirection.Magnitude > 0 then
+        if humanoid.WalkSpeed > runSpeedThreshold then
+            -- Si el jugador está corriendo, reproducimos la animación de correr
+            if not runTrack.IsPlaying then
+                walkTrack:Stop()
+                idleTrack:Stop()
+                runTrack:Play()
+            end
+        else
+            -- Si el jugador está caminando, reproducimos la animación de caminar
+            if not walkTrack.IsPlaying then
+                idleTrack:Stop()
+                runTrack:Stop()
+                walkTrack:Play()
+            end
+        end
+    else
+        -- Si el jugador está quieto, reproducimos la animación de estar quieto
+        if not idleTrack.IsPlaying then
+            walkTrack:Stop()
+            runTrack:Stop()
+            idleTrack:Play()
+        end
+    end
+end
+
+-- Conectamos la función de actualización a la señal de cambio de estado del Humanoid
+humanoid.Running:Connect(updateAnimation)
+    end
+})
+
+Tabs.Main5:AddButton({
+    Title = "T-Pose",
+    Description = "Makes you T-Pose",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local animator = humanoid:WaitForChild("Animator")
+
+-- Función para pausar todas las animaciones del jugador
+local function pauseAnimations()
+    -- Iteramos sobre todas las animaciones del Animator y las detenemos
+    for _, track in pairs(animator:GetPlayingAnimationTracks()) do
+        track:Stop()
+    end
+end
+
+-- Actualizamos cada 0.3 segundos
+while true do
+    wait(0.1)
+    pauseAnimations()
+end
+    end
+})
+
+
+local Section = Tabs.Main6:AddSection("Fe character cards")
+
+Tabs.Main6:AddButton({
+    Title = "Dandy",
+    Description = "Use when selecting character in-game",
+    Callback = function()
+        local args = {
+    [1] = "Dandy"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+    end
+})
+
+Tabs.Main6:AddButton({
+    Title = "Asstroke",
+    Description = "Use when selecting character in-game",
+    Callback = function()
+        local args = {
+    [1] = "Astro"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+    end
+})
+
+Tabs.Main6:AddButton({
+    Title = "Shelly",
+    Description = "Use when selecting character in-game",
+    Callback = function()
+        local args = {
+    [1] = "Shelly"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+    end
+})
+
+Tabs.Main6:AddButton({
+    Title = "Vee Icon",
+    Description = "Use when selecting character in-game",
+    Callback = function()
+        local args = {
+    [1] = "Vee"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+    end
+})
+
+Tabs.Main6:AddButton({
+    Title = "Pebble Icon",
+    Description = "Use when selecting character in-game",
+    Callback = function()
+        local args = {
+    [1] = "Pebble"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+    end
+})
+
+Tabs.Main6:AddButton({
+    Title = "Sprout Icon",
+    Description = "Use when selecting a character in-game",
+    Callback = function()
+        local args = {
+    [1] = "Sprout"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+    end
+})
+
+Tabs.Main6:AddButton({
+    Title = "Or enter a custom Toon GUI",
+    Description = "If u dont want a main",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "VoteGui"
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 350, 0, 200)
+frame.Position = UDim2.new(0.5, -175, 0.5, -100)
+frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+frame.BorderSizePixel = 0
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+
+local corner = Instance.new("UICorner", frame)
+corner.CornerRadius = UDim.new(0, 10)
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, -40, 0, 30)
+title.Position = UDim2.new(0, 20, 0, 5)
+title.Text = "Toon Select"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextScaled = true
+title.BackgroundTransparency = 1
+
+local closeButton = Instance.new("TextButton", frame)
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 5)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.BorderSizePixel = 0
+
+local closeCorner = Instance.new("UICorner", closeButton)
+closeCorner.CornerRadius = UDim.new(1, 0)
+
+local textBox = Instance.new("TextBox", frame)
+textBox.Size = UDim2.new(0.8, 0, 0.3, 0)
+textBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+textBox.PlaceholderText = "Enter your toon..."
+textBox.Text = ""
+textBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+textBox.TextScaled = true
+textBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+textBox.ClearTextOnFocus = false
+
+local textBoxCorner = Instance.new("UICorner", textBox)
+textBoxCorner.CornerRadius = UDim.new(0, 8)
+
+local voteButton = Instance.new("TextButton", frame)
+voteButton.Size = UDim2.new(0.6, 0, 0.2, 0)
+voteButton.Position = UDim2.new(0.2, 0, 0.75, 0)
+voteButton.Text = "Confirm"
+voteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+voteButton.TextScaled = true
+voteButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+
+local voteCorner = Instance.new("UICorner", voteButton)
+voteCorner.CornerRadius = UDim.new(0, 8)
+
+local dragging = false
+local dragStart, startPos
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+frame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+voteButton.MouseButton1Click:Connect(function()
+    local voteText = textBox.Text
+    if voteText and voteText ~= "" then
+        local args = { [1] = voteText }
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Voted"):InvokeServer(unpack(args))
+        textBox.Text = ""
+    end
+end)
+    end
+})
+
+local Section = Tabs.Main7:AddSection("Settings")
+
+local TColorpicker = Tabs.Main7:AddColorpicker("TransparencyColorpicker", {
+    Title = "Colorpicker",
+    Description = "Change Transparency.",
+    Transparency = 0,
+    Default = Color3.fromRGB(96, 205, 255)
+})
+
+local Colorpicker = Tabs.Main7:AddColorpicker("Colorpicker", {
+    Title = "Colorpicker",
+    Description = "Description for colorpicker",
+    Default = Color3.fromRGB(96, 205, 255)
+})
+
+Colorpicker:OnChanged(function()
+    print("Colorpicker changed:", Colorpicker.Value)
+end)
+    
+Colorpicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
+
+local Section = Tabs.Main8:AddSection("Particles Emitter")
+
+Tabs.Main8:AddButton({
+    Title = "Fire Particles",
+    Description = "Sets you on fire",
+    Callback = function()
+local function createFireEffect(character)
+    -- Asegurarse de que el HumanoidRootPart exista
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then
+        return
+    end
+
+    -- Verificar si ya existe el efecto Fire
+    if rootPart:FindFirstChild("Fire") then
+        return
+    end
+
+    -- Crear el efecto Fire
+    local fire = Instance.new("Fire")
+    fire.Name = "Fire"
+    fire.Size = 5 -- Tamaño del fuego (ajústalo si lo deseas)
+    fire.Heat = 10 -- Intensidad del calor (ajústalo si lo deseas)
+    fire.Parent = rootPart
+end
+
+-- Conectar el evento CharacterAdded
+local function onCharacterAdded(character)
+    createFireEffect(character)
+end
+
+-- Esperar a que el jugador y su personaje se carguen
+local player = game.Players.LocalPlayer
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+player.CharacterAdded:Connect(onCharacterAdded)
+    end
+})
+
+Tabs.Main8:AddButton({
+    Title = "Sparkles",
+    Description = "Makes u have Sparkles",
+    Callback = function()
+local function createSparklesEffect(character)
+    -- Asegurarse de que el HumanoidRootPart exista
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then
+        return
+    end
+
+    -- Verificar si ya existe el efecto Sparkles
+    if rootPart:FindFirstChild("Sparkles") then
+        return
+    end
+
+    -- Crear el efecto Sparkles
+    local sparkles = Instance.new("Sparkles")
+    sparkles.Name = "Sparkles"
+    sparkles.Parent = rootPart
+end
+
+-- Conectar el evento CharacterAdded
+local function onCharacterAdded(character)
+    createSparklesEffect(character)
+end
+
+-- Esperar a que el jugador y su personaje se carguen
+local player = game.Players.LocalPlayer
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+player.CharacterAdded:Connect(onCharacterAdded)
+    end
+})
+
+Tabs.Main8:AddButton({
+    Title = "Cupcakes Sparkless",
+    Description = "Cupcakes",
+    Callback = function()
+local function createCupcakeParticles(character)
+    -- Asegurarse de que el HumanoidRootPart exista
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then
+        return
+    end
+
+    -- Verificar si ya existe el emisor
+    if rootPart:FindFirstChild("CupcakeParticles") then
+        return
+    end
+
+    -- Crear el ParticleEmitter
+    local particles = Instance.new("ParticleEmitter")
+    particles.Name = "CupcakeParticles"
+    particles.Texture = "rbxassetid://137302419" -- Textura del cupcake
+    particles.Rate = 20 -- Velocidad de emisión
+    particles.Lifetime = NumberRange.new(1, 2) -- Tiempo de vida de las partículas
+    particles.Speed = NumberRange.new(3, 5) -- Velocidad de las partículas
+    particles.Size = NumberSequence.new(2) -- Tamaño de las partículas
+    particles.Color = ColorSequence.new(Color3.new(1, 1, 1)) -- Color blanco
+    particles.Parent = rootPart
+end
+
+-- Conectar el evento CharacterAdded
+local function onCharacterAdded(character)
+    createCupcakeParticles(character)
+end
+
+-- Esperar a que el jugador y su personaje se carguen
+local player = game.Players.LocalPlayer
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+player.CharacterAdded:Connect(onCharacterAdded)
+    end
+})
+
+Tabs.Main8:AddButton({
+    Title = "Smoke",
+    Description = "I think something is burning",
+    Callback = function()
+local function createSmokeParticles(character)
+    -- Asegurarse de que el HumanoidRootPart exista
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then
+        return
+    end
+
+    -- Verificar si ya existe el emisor
+    if rootPart:FindFirstChild("SmokeParticles") then
+        return
+    end
+
+    -- Crear el ParticleEmitter
+    local smoke = Instance.new("ParticleEmitter")
+    smoke.Name = "SmokeParticles"
+    smoke.Texture = "rbxassetid://122434485" -- Textura de humo
+    smoke.Rate = 30 -- Velocidad de emisión
+    smoke.Lifetime = NumberRange.new(2, 3) -- Tiempo de vida de las partículas
+    smoke.Speed = NumberRange.new(5, 10) -- Velocidad de las partículas
+    smoke.Size = NumberSequence.new(4, 8) -- Tamaño de las partículas
+    smoke.Transparency = NumberSequence.new(0.5, 1) -- Transparencia de las partículas
+    smoke.Color = ColorSequence.new(Color3.fromRGB(100, 100, 100)) -- Color gris del humo
+    smoke.Parent = rootPart
+end
+
+-- Conectar el evento CharacterAdded
+local function onCharacterAdded(character)
+    createSmokeParticles(character)
+end
+
+-- Esperar a que el jugador y su personaje se carguen
+local player = game.Players.LocalPlayer
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+player.CharacterAdded:Connect(onCharacterAdded)
+    end
+})
+
+local Section = Tabs.Main8:AddSection("Spawn funny things")
+
+Tabs.Main8:AddButton({
+    Title = "Spawn Popcorn",
+    Description = "Popcorn",
+    Callback = function()
+        local function createCupcakeMeshPart(character)
+    -- Asegurarse de que el HumanoidRootPart exista
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then
+        return
+    end
+
+    -- Posición inicial de las MeshParts (en la posición del jugador)
+    local position = rootPart.Position
+
+    -- Crear el MeshPart
+    local cupcakeMeshPart = Instance.new("MeshPart")
+    cupcakeMeshPart.Size = Vector3.new(2, 2, 2)  -- Ajusta el tamaño del cupcake
+    cupcakeMeshPart.Position = position
+    cupcakeMeshPart.Anchored = false
+    cupcakeMeshPart.Parent = workspace
+
+    -- Asignar el MeshId del cupcake
+    cupcakeMeshPart.MeshId = "rbxassetid://12938320630"
+
+    -- Asignar el TextureId del cupcake (reemplaza con el TextureId que encuentres)
+    cupcakeMeshPart.TextureID = "rbxassetid://12938320700" -- TextureId de ejemplo
+
+    -- Puedes añadir materiales, colores, etc.
+    cupcakeMeshPart.Color = Color3.fromRGB(255, 200, 200)  -- Color de ejemplo
+end
+
+-- Conectar el evento CharacterAdded
+local function onCharacterAdded(character)
+    createCupcakeMeshPart(character)
+end
+
+-- Esperar a que el jugador y su personaje se carguen
+local player = game.Players.LocalPlayer
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+player.CharacterAdded:Connect(onCharacterAdded)
+    end
+})
+
+local Slider = Tabs.Main2:AddSlider("WalkSpeed", 
+{
+    Title = "Walkspeed",
+    Description = "Change Walkspeed",
+    Default = 16,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Callback = function(Value)
+        local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+while true do
+    character.Humanoid.WalkSpeed = Value
+    wait(0.001)
+end
+    end
+}) 
